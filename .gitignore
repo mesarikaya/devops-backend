@@ -36,4 +36,4 @@ build/
 *.env
 
 ## Ignore jar staging
-!**/jarstaging/**
+/jarstaging/
