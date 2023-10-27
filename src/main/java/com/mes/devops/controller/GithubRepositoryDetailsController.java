@@ -29,6 +29,6 @@ public class GithubRepositoryDetailsController {
     public String getRepositories() throws IOException {
         GitHub github = new GitHubBuilder().withPassword(username, password).build();
         GHRepositorySearchBuilder builder = github.searchRepositories();
-        return "Working endpoint - Get github repositories";
+        return "Simple Test github endpoint - Get github repositories";
     }
 }
