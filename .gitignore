@@ -34,3 +34,6 @@ build/
 
 ### Ignore env files ###
 *.env
+
+## Ignore jar staging
+!**/jarstaging/**

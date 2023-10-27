@@ -19,7 +19,7 @@ import java.io.IOException;
 @RequestMapping("/api/v1/github")
 public class GithubRepositoryDetailsController {
 
-/*    @Value("${github.username}")
+    /*@Value("${github.username}")
     private String username;
 
     @Value("${github.password}")
@@ -27,8 +27,8 @@ public class GithubRepositoryDetailsController {
 
     @GetMapping("")
     public String getRepositories() throws IOException {
-        GitHub github = new GitHubBuilder().withPassword(username, password).build();
-        GHRepositorySearchBuilder builder = github.searchRepositories();
+        /*GitHub github = new GitHubBuilder().withPassword(username, password).build();
+        GHRepositorySearchBuilder builder = github.searchRepositories();*/
         return "Simple Test github endpoint - Get github repositories";
     }
 }
