@@ -14,7 +14,7 @@
 	<name>devops</name>
 	<description>Demo DevOps project for Spring Boot</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 
 		<spring-boot.version>3.1.5</spring-boot.version>
 		<start-class>com.mes.devops.DevopsApplication</start-class>

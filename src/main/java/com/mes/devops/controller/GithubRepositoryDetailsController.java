@@ -19,11 +19,11 @@ import java.io.IOException;
 @RequestMapping("/api/v1/github")
 public class GithubRepositoryDetailsController {
 
-    @Value("${github.username}")
+/*    @Value("${github.username}")
     private String username;
 
     @Value("${github.password}")
-    private String password;
+    private String password;*/
 
     @GetMapping("")
     public String getRepositories() throws IOException {
