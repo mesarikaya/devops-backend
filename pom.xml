@@ -14,7 +14,7 @@
 	<name>devops</name>
 	<description>Demo DevOps project for Spring Boot</description>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>11</java.version>
 
 		<spring-boot.version>3.1.5</spring-boot.version>
 		<start-class>com.mes.devops.DevopsApplication</start-class>
@@ -272,6 +272,12 @@
 		</pluginManagement>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>dev</id>
+			<url>file://jarstaging</url>
+		</repository>
+	</distributionManagement>
 
 	<profiles>
 		<profile>
