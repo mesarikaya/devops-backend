@@ -1,29 +1,31 @@
 FROM amazoncorretto:17
 LABEL maintainer="Ergin Sarikaya"
 LABEL PROJECT_NAME="devops-rest-api-service"
+RUN yum -y update
+RUN groupadd -r user && useradd -r -g user ubuntu
 USER ubuntu
 
 # Fix security issues
-RUN yum -y update java-17-amazon-corretto-devel user ubuntu
-RUN yum -y update libxml2 user ubuntu
-RUN yum -y update zlib user ubuntu
-RUN yum -y update expat user ubuntu
-RUN yum -y update curl user ubuntu
-RUN yum -y update vim-data user ubuntu
-RUN yum -y update vim-minimal user ubuntu
-RUN yum -y update libblkid user ubuntu
-RUN yum -y update libcom_err user ubuntu
-RUN yum -y update libmount user ubuntu
-RUN yum -y update libuuid user ubuntu
-RUN yum -y update ncurses user ubuntu
-RUN yum -y update ncurses-base user ubuntu
-RUN yum -y update ncurses-libs user ubuntu
-RUN yum -y update krb5-libs user ubuntu
-RUN yum -y update libpng user ubuntu
-RUN yum -y update libtasn1 user ubuntu
-RUN yum -y update sqlite user ubuntu
-RUN yum -y update openssl-libs user ubuntu
-RUN yum -y update ca-certificates user ubuntu
+RUN yum -y update java-17-amazon-corretto-devel
+RUN yum -y update libxml2
+RUN yum -y update zlib
+RUN yum -y update expat
+RUN yum -y update curl
+RUN yum -y update vim-data
+RUN yum -y update vim-minimal
+RUN yum -y update libblkid
+RUN yum -y update libcom_err
+RUN yum -y update libmount
+RUN yum -y update libuuid
+RUN yum -y update ncurses
+RUN yum -y update ncurses-base
+RUN yum -y update ncurses-libs
+RUN yum -y update krb5-libs
+RUN yum -y update libpng
+RUN yum -y update libtasn1
+RUN yum -y update sqlite
+RUN yum -y update openssl-libs
+RUN yum -y update ca-certificates
 
 ARG SPRING_PROFILES_ACTIVE=default
 
