@@ -1,6 +1,7 @@
 FROM amazoncorretto:17
-LABEL maintainer="e621777@cargill.com"
-LABEL PROJECT_NAME="techhealth-rest-api-service"
+LABEL maintainer="Ergin Sarikaya"
+LABEL PROJECT_NAME="devops-rest-api-service"
+USER ubuntu
 
 # Fix security issues
 RUN yum -y update java-17-amazon-corretto-devel
