@@ -1,7 +1,11 @@
 FROM amazoncorretto:17
 LABEL maintainer="Ergin Sarikaya"
 LABEL PROJECT_NAME="devops-rest-api-service"
-RUN yum -y update
+# Install required utilities
+RUN yum update -y
+RUN yum install -y shadow-utils
+
+# Add a user and group
 RUN groupadd -r user && useradd -r -g user ubuntu
 USER ubuntu
 
