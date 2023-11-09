@@ -100,7 +100,7 @@ pipeline {
                     }
                 }*/
 
-        stage ("Docker Publish"){
+        /*stage ("Docker Publish"){
             steps {
                 script {
                    echo '<--------------- Docker Publish Started --------------->'
@@ -110,6 +110,6 @@ pipeline {
                    echo '<--------------- Docker Publish Ended --------------->'
                 }
             }
-        }
+        }*/
     }
 }
