@@ -66,7 +66,7 @@ pipeline {
             steps {
                 script {
                     // Publish the JAR to AWS CodeArtifact
-                    sh "${MAVEN_HOME}/bin/mvn deploy -DrepositoryId=aws-devops-maven-artifactory-id -s settings.xml"
+                    sh "mvn deploy -DrepositoryId=aws-devops-maven-artifactory-id -s settings.xml"
                 }
             }
         }
