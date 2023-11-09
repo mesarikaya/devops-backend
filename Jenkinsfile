@@ -4,7 +4,8 @@ def version   = '0.0.1'
 pipeline {
 
     parameters {
-      string(name: 'DOCKER_IMAGE_VERSION', defaultValue: "${BUILD_NUMBER}", description: 'Docker image version or tag')
+      string(name: 'DOCKER_IMAGE_VERSION', defaultValue: "0.0.1", description: 'Docker image version or tag')
+      string(name: 'BUILD_NUMBER', defaultValue: "${BUILD_NUMBER}", description: 'Build numberg')
     }
 
     agent {
@@ -20,7 +21,7 @@ pipeline {
         AWS_REGION = 'eu-west-1'
         AWS_CODEARTIFACTORY_REPO = credentials('AWS_CODEARTIFACTORY_REPO')
         DOCKER_IMAGE_NAME = 'devops-backend'
-        DOCKER_IMAGE_TAG = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}"
+        DOCKER_IMAGE_TAG = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}-${BUILD_NUMBER}"
     }
 
     stages {
