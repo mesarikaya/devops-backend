@@ -21,6 +21,7 @@ pipeline {
         AWS_REGION = 'eu-west-1'
         AWS_CODEARTIFACTORY_REPO = credentials('AWS_CODEARTIFACTORY_REPO')
         DOCKER_IMAGE_NAME = 'devops-backend'
+        ECR_REPO_NAME = 'dev-devops-container-repository'
         DOCKER_IMAGE_TAG = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}-${BUILD_NUMBER}"
     }
 
@@ -83,14 +84,35 @@ pipeline {
         }*/
 
         stage("Docker Build") {
-                  steps {
-                    script {
-                       echo '<--------------- Docker Build Started --------------->'
-                       app = docker.build(DOCKER_IMAGE_TAG)
-                       echo '<--------------- Docker Build Ends --------------->'
-                    }
-                  }
+            steps {
+            script {
+               echo '<--------------- Docker Build Started --------------->'
+               app = docker.build(DOCKER_IMAGE_TAG)
+               echo '<--------------- Docker Build Ends --------------->'
+            }
+            }
         }
+
+        stage("Docker Push to AWS ECR") {
+            steps {
+                script {
+                    echo '<--------------- Docker Push to AWS ECR Started --------------->'
+                    withAWS(credentials: 'AWS_ECR_CREDENTIALS', region: ${AWS_REGION}) {
+                        // Retrieve an authentication token and authenticate Docker client to the registry.
+                        sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+
+                        // Tag the Docker image for AWS ECR
+                        sh "docker tag ${DOCKER_IMAGE_TAG} ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
+
+                        // Push the Docker image to AWS ECR
+                        sh "docker push ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
+                    }
+                    echo '<--------------- Docker Push to AWS ECR Ended --------------->'
+                }
+            }
+        }
+
+
 
         /*stage('Build Docker Image') {
                     steps {
