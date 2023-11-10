@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-backend
+  namespace: devops-infra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devops-backend
+  template:
+    metadata:
+      labels:
+        app: devops-backend
+    spec:
+      containers:
+        - name: devops-backend-container
+          image: <AWS_ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/<ECR_REPO_NAME>:<DOCKER_IMAGE_VERSION>
+          ports:
+            - containerPort: 8000
+        - env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
