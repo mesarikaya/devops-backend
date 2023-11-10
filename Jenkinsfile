@@ -73,67 +73,30 @@ pipeline {
             }
         }
 
-        /*stage("Docker Build") {
-          steps {
-            script {
-               echo '<--------------- Docker Build Started --------------->'
-               app = docker.build(imageName+":"+version)
-               echo '<--------------- Docker Build Ends --------------->'
-            }
-          }
-        }*/
-
-        stage("Docker Build") {
-            steps {
-            script {
-               echo '<--------------- Docker Build Started --------------->'
-               app = docker.build(DOCKER_IMAGE_TAG)
-               echo '<--------------- Docker Build Ends --------------->'
-            }
-            }
-        }
-
-        stage("Docker Push to AWS ECR") {
+        stage("Docker Build and Push to AWS ECR") {
             steps {
                 script {
-                    echo '<--------------- Docker Push to AWS ECR Started --------------->'
+                    echo '<--------------- Docker Build and Push to AWS ECR Started --------------->'
                     withAWS(credentials: 'AWS_ECR_CREDENTIALS', region: ${AWS_REGION}) {
                         // Retrieve an authentication token and authenticate Docker client to the registry.
                         sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 
+                        echo '<--------------- Docker Build Started --------------->'
+                        // Build Docker image
+                        sh "docker build -t ${DOCKER_IMAGE_TAG} .
+                        echo '<--------------- Docker Build Ended --------------->'
+
+                        echo '<--------------- Docker Push to AWS ECR Started --------------->'
                         // Tag the Docker image for AWS ECR
                         sh "docker tag ${DOCKER_IMAGE_TAG} ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
 
                         // Push the Docker image to AWS ECR
                         sh "docker push ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
+                        echo '<--------------- Docker Push to AWS ECR Ended --------------->'
                     }
-                    echo '<--------------- Docker Push to AWS ECR Ended --------------->'
+                    echo '<--------------- Docker Build and Push to AWS ECR Ended --------------->'
                 }
             }
         }
-
-
-
-        /*stage('Build Docker Image') {
-                    steps {
-                        script {
-                            // Build a Docker image with your application and Dockerfile, and tag it with a unique version
-                            sh "docker build -t ${DOCKER_IMAGE_TAG} ."
-                        }
-                    }
-                }*/
-
-        /*stage ("Docker Publish"){
-            steps {
-                script {
-                   echo '<--------------- Docker Publish Started --------------->'
-                    docker.withRegistry(registry, 'jfrog-artifact-credentials'){
-                        app.push()
-                    }
-                   echo '<--------------- Docker Publish Ended --------------->'
-                }
-            }
-        }*/
-
     }
 }
