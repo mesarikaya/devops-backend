@@ -24,6 +24,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'devops-backend'
         ECR_REPO_NAME = 'dev-devops-container-repository'
         DOCKER_IMAGE_TAG = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}-${BUILD_NUMBER}"
+        NAMESPACE_NAME = 'devops-infra'
     }
 
     stages {
@@ -57,7 +58,7 @@ pipeline {
 
         stage("Quality Gate") {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 30, unit: 'MINUTES') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
                     // true = set pipeline to UNSTABLE, false = don't
                     waitForQualityGate abortPipeline: true
@@ -97,7 +98,28 @@ pipeline {
                     }
                     echo '<--------------- Docker Build and Push to AWS ECR Ended --------------->'
                 }
+            }
+        }
 
+        stage("Create Namespace") {
+            steps {
+                script {
+                    def namespaceYamlPath = 'kubernetes/namespace.yml'
+
+                    // Replace placeholders in the YAML file with actual values
+                    sh "envsubst < ${namespaceYamlPath} > ${namespaceYamlPath}.temp"
+
+                    // Check if the namespace already exists
+                    def namespaceExists = sh(script: "kubectl get namespace ${NAMESPACE_NAME}", returnStatus: true) == 0
+
+                    if (!namespaceExists) {
+                        // Apply the modified namespace YAML
+                        sh "kubectl apply -f ${namespaceYamlPath}.temp"
+                        echo "Namespace created or updated from ${namespaceYamlPath}."
+                    } else {
+                        echo "Namespace ${NAMESPACE_NAME} already exists."
+                    }
+                }
             }
         }
     }
