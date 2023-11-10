@@ -97,6 +97,7 @@ pipeline {
                     }
                     echo '<--------------- Docker Build and Push to AWS ECR Ended --------------->'
                 }
+
             }
         }
     }
