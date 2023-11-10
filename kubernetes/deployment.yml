@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: devops-backend-container
-          image: <AWS_ACCOUNT_ID>.dkr.ecr.<AWS_REGION>.amazonaws.com/<ECR_REPO_NAME>:<DOCKER_IMAGE_VERSION>
+          image: <AWS_USER>.dkr.ecr.<AWS_REGION>.amazonaws.com/<ECR_REPO_NAME>:<DOCKER_IMAGE_VERSION>
           ports:
             - containerPort: 8000
         - env:

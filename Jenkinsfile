@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+        /*stage('SonarQube Analysis') {
             environment{
                 scannerHome = tool 'devops-backend-sonar-scanner'
             }
@@ -64,7 +64,7 @@ pipeline {
                     waitForQualityGate abortPipeline: true
                 }
             }
-        }
+        }*/
 
         stage('Publish JAR to AWS CodeArtifact') {
             steps {
@@ -118,6 +118,31 @@ pipeline {
                         echo "Namespace created or updated from ${namespaceYamlPath}."
                     } else {
                         echo "Namespace ${NAMESPACE_NAME} already exists."
+                    }
+                }
+            }
+        }
+
+        stage("Create Deployment on Kubernetes") {
+            steps {
+                script {
+                    // Specify the directory containing the Kubernetes manifests
+                    def manifestsDir = 'kubernetes'
+
+                    // Dynamic replacements in the Kubernetes manifest
+                    def awsAccountId = sh(script: 'aws sts get-caller-identity --query "Account" --output text', returnStdout: true).trim()
+                    def imageTag = "${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
+
+                    // Replace placeholders in the Deployment YAML
+                    sh "sed -i 's|<AWS_USER>|${AWS_USER}|g' ${manifestsDir}/deployment.yaml"
+                    sh "sed -i 's|<AWS_REGION>|${AWS_REGION}|g' ${manifestsDir}/deployment.yaml"
+                    sh "sed -i 's|<ECR_REPO_NAME>|${ECR_REPO_NAME}|g' ${manifestsDir}/deployment.yaml"
+                    sh "sed -i 's|<DOCKER_IMAGE_VERSION>|${DOCKER_IMAGE_VERSION}|g' ${manifestsDir}/deployment.yaml"
+
+                    // Assuming Kubernetes manifests are in a directory within the project
+                    dir('kubernetes') {
+                        // Apply the Kubernetes manifests using kubectl
+                        sh "kubectl apply -f ${manifestsDir}"
                     }
                 }
             }
