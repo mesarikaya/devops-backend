@@ -77,7 +77,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Docker Build and Push to AWS ECR Started --------------->'
-                    withAWS(credentials: 'AWS_ECR_CREDENTIALS', region: ${AWS_REGION}) {
+                    withAWS(credentials: 'AWS_CREDENTIALS', region: ${AWS_REGION}) {
                         // Retrieve an authentication token and authenticate Docker client to the registry.
                         sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 
