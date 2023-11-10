@@ -17,6 +17,7 @@ pipeline {
     environment {
         PATH = "/opt/apache-maven-3.9.5/bin:$PATH"
         CODEARTIFACT_AUTH_TOKEN = credentials('CODEARTIFACT_AUTH_TOKEN')
+        AWS_CREDENTIALS = credentials('AWS_CREDENTIALS')
         AWS_USER = credentials('AWS_USER')
         AWS_REGION = 'eu-west-1'
         AWS_CODEARTIFACTORY_REPO = credentials('AWS_CODEARTIFACTORY_REPO')
