@@ -83,7 +83,7 @@ pipeline {
 
                         echo '<--------------- Docker Build Started --------------->'
                         // Build Docker image
-                        sh "docker build -t ${DOCKER_IMAGE_TAG} .
+                        sh "docker build -t ${DOCKER_IMAGE_TAG} ."
                         echo '<--------------- Docker Build Ended --------------->'
 
                         echo '<--------------- Docker Push to AWS ECR Started --------------->'
