@@ -123,7 +123,7 @@ pipeline {
             }
         }
 
-        stage("Create Deployment on Kubernetes") {
+        /*stage("Create Deployment on Kubernetes") {
             steps {
                 script {
                     // Specify the directory containing the Kubernetes manifests
@@ -146,6 +146,6 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
     }
 }
