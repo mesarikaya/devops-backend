@@ -127,7 +127,7 @@ pipeline {
             steps {
                 script {
                     // Specify the directory containing the Kubernetes manifests
-                    def manifestsDir = 'kubernetes/deployment.yml'
+                    def manifestsDir = 'kubernetes'
 
                     // Dynamic replacements in the Kubernetes manifest
                     def awsAccountId = sh(script: 'aws sts get-caller-identity --query "Account" --output text', returnStdout: true).trim()
@@ -142,7 +142,7 @@ pipeline {
                     // Assuming Kubernetes manifests are in a directory within the project
                     dir('kubernetes') {
                         // Apply the Kubernetes manifests using kubectl
-                        sh "kubectl apply -f ${manifestsDir}"
+                        sh "kubectl apply -f ${manifestsDir}/deployment.yaml"
                     }
                 }
             }
