@@ -5,7 +5,7 @@ pipeline {
 
     parameters {
       string(name: 'DOCKER_IMAGE_VERSION', defaultValue: "0.0.1", description: 'Docker image version or tag')
-      string(name: 'BUILD_NUMBER', defaultValue: "${BUILD_NUMBER}", description: 'Build numberg')
+      string(name: 'BUILD_NUMBER', defaultValue: "${BUILD_NUMBER}", description: 'Build number')
     }
 
     agent {
@@ -123,11 +123,11 @@ pipeline {
             }
         }
 
-        /*stage("Create Deployment on Kubernetes") {
+        stage("Create Deployment on Kubernetes") {
             steps {
                 script {
                     // Specify the directory containing the Kubernetes manifests
-                    def manifestsDir = 'kubernetes'
+                    def manifestsDir = 'kubernetes/deployment.yml'
 
                     // Dynamic replacements in the Kubernetes manifest
                     def awsAccountId = sh(script: 'aws sts get-caller-identity --query "Account" --output text', returnStdout: true).trim()
@@ -146,7 +146,6 @@ pipeline {
                     }
                 }
             }
-        }*/
-
+        }
     }
 }
