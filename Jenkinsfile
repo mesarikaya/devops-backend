@@ -134,15 +134,15 @@ pipeline {
                     def imageTag = "${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
 
                     // Replace placeholders in the Deployment YAML
-                    sh "sed -i 's|<AWS_USER>|${AWS_USER}|g' ${manifestsDir}/deployment.yaml"
-                    sh "sed -i 's|<AWS_REGION>|${AWS_REGION}|g' ${manifestsDir}/deployment.yaml"
-                    sh "sed -i 's|<ECR_REPO_NAME>|${ECR_REPO_NAME}|g' ${manifestsDir}/deployment.yaml"
-                    sh "sed -i 's|<DOCKER_IMAGE_VERSION>|${DOCKER_IMAGE_VERSION}|g' ${manifestsDir}/deployment.yaml"
+                    sh "sed -i 's|<AWS_USER>|${AWS_USER}|g' ${manifestsDir}/deployment.yml"
+                    sh "sed -i 's|<AWS_REGION>|${AWS_REGION}|g' ${manifestsDir}/deployment.yml"
+                    sh "sed -i 's|<ECR_REPO_NAME>|${ECR_REPO_NAME}|g' ${manifestsDir}/deployment.yml"
+                    sh "sed -i 's|<DOCKER_IMAGE_VERSION>|${DOCKER_IMAGE_VERSION}|g' ${manifestsDir}/deployment.yml"
 
                     // Assuming Kubernetes manifests are in a directory within the project
                     dir('kubernetes') {
                         // Apply the Kubernetes manifests using kubectl
-                        sh "kubectl apply -f ${manifestsDir}/deployment.yaml"
+                        sh "kubectl apply -f ${manifestsDir}/deployment.yml"
                     }
                 }
             }
