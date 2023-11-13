@@ -23,7 +23,7 @@ pipeline {
         AWS_CODEARTIFACTORY_REPO = credentials('AWS_CODEARTIFACTORY_REPO')
         DOCKER_IMAGE_NAME = 'devops-backend'
         ECR_REPO_NAME = 'dev-devops-container-repository'
-        DOCKER_IMAGE_TAG = "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}.${BUILD_NUMBER}"
+        DOCKER_IMAGE_TAG = "${DOCKER_IMAGE_NAME}-${DOCKER_IMAGE_VERSION}-${BUILD_NUMBER}"
         NAMESPACE_NAME = 'devops-infra'
     }
 
