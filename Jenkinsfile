@@ -90,10 +90,10 @@ pipeline {
 
                         echo '<--------------- Docker Push to AWS ECR Started --------------->'
                         // Tag the Docker image for AWS ECR
-                        sh "docker tag ${DOCKER_IMAGE_TAG} ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
+                        sh "docker tag ${DOCKER_IMAGE_TAG} ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_TAG}"
 
                         // Push the Docker image to AWS ECR
-                        sh "docker push ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
+                        sh "docker push ${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_TAG}"
                         echo '<--------------- Docker Push to AWS ECR Ended --------------->'
                     }
                     echo '<--------------- Docker Build and Push to AWS ECR Ended --------------->'
@@ -137,7 +137,7 @@ pipeline {
                     sh "sed -i 's|<AWS_USER>|${AWS_USER}|g' ${deploymentYamlPath}"
                     sh "sed -i 's|<AWS_REGION>|${AWS_REGION}|g' ${deploymentYamlPath}"
                     sh "sed -i 's|<ECR_REPO_NAME>|${ECR_REPO_NAME}|g' ${deploymentYamlPath}"
-                    sh "sed -i 's|<DOCKER_IMAGE_VERSION>|${DOCKER_IMAGE_VERSION}|g' ${deploymentYamlPath}"
+                    sh "sed -i 's|<DOCKER_IMAGE_TAG>|${DOCKER_IMAGE_TAG}|g' ${deploymentYamlPath}"
 
                     // Apply the Kubernetes manifests using kubectl
                     sh "kubectl apply -f ${deploymentYamlPath}"

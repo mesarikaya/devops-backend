@@ -14,10 +14,10 @@ spec:
         app: devops-backend
     spec:
       containers:
-        - name: devops-backend-container
-          image: <AWS_USER>.dkr.ecr.<AWS_REGION>.amazonaws.com/<ECR_REPO_NAME>:<DOCKER_IMAGE_VERSION>
-          ports:
-            - containerPort: 8000
-        - env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: dev
+      - name: devops-backend-image
+        image: <AWS_USER>.dkr.ecr.<AWS_REGION>.amazonaws.com/<ECR_REPO_NAME>:<DOCKER_IMAGE_TAG>
+        ports:
+          - containerPort: 8000
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
