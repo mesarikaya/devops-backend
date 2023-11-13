@@ -127,22 +127,22 @@ pipeline {
             steps {
                 script {
                     // Specify the directory containing the Kubernetes manifests
-                    def manifestsDir = 'kubernetes'
+                    def deploymentYamlPath = 'kubernetes/deployment.yml'
 
                     // Dynamic replacements in the Kubernetes manifest
                     def awsAccountId = sh(script: 'aws sts get-caller-identity --query "Account" --output text', returnStdout: true).trim()
                     def imageTag = "${AWS_USER}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${DOCKER_IMAGE_VERSION}"
 
                     // Replace placeholders in the Deployment YAML
-                    sh "sed -i 's|<AWS_USER>|${AWS_USER}|g' ${manifestsDir}/deployment.yml"
-                    sh "sed -i 's|<AWS_REGION>|${AWS_REGION}|g' ${manifestsDir}/deployment.yml"
-                    sh "sed -i 's|<ECR_REPO_NAME>|${ECR_REPO_NAME}|g' ${manifestsDir}/deployment.yml"
-                    sh "sed -i 's|<DOCKER_IMAGE_VERSION>|${DOCKER_IMAGE_VERSION}|g' ${manifestsDir}/deployment.yml"
+                    sh "sed -i 's|<AWS_USER>|${AWS_USER}|g' ${deploymentYamlPath}"
+                    sh "sed -i 's|<AWS_REGION>|${AWS_REGION}|g' ${deploymentYamlPath}"
+                    sh "sed -i 's|<ECR_REPO_NAME>|${ECR_REPO_NAME}|g' ${deploymentYamlPath}"
+                    sh "sed -i 's|<DOCKER_IMAGE_VERSION>|${DOCKER_IMAGE_VERSION}|g' ${deploymentYamlPath}"
 
                     // Assuming Kubernetes manifests are in a directory within the project
                     dir('kubernetes') {
                         // Apply the Kubernetes manifests using kubectl
-                        sh "kubectl apply -f ${manifestsDir}/deployment.yml"
+                        sh "kubectl apply -f ${deploymentYamlPath}"
                     }
                 }
             }
