@@ -4,10 +4,10 @@ metadata:
   name:  devops-backend-service
   namespace: <NAMESPACE_NAME>
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: devops-backend
   ports:
-    - nodePort: 30082
-      port: 8000
+    - protocol: TCP
+      port: 80
       targetPort: 8000
