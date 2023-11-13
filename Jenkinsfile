@@ -152,8 +152,12 @@ pipeline {
                     // Specify the location containing the Kubernetes service manifests
                     def serviceYamlPath = 'kubernetes/service.yml'
 
-                    // Replace placeholders in the Deployment YAML
+                    // Replace placeholders in the service YAML
+                    echo "Namespace Name: ${NAMESPACE_NAME}"
+                    echo "Service YAML Path: ${serviceYamlPath}"
+                    sh "cat ${serviceYamlPath}" // Print the file content before modification
                     sh "sed -i 's|<NAMESPACE_NAME>|${NAMESPACE_NAME}|g' ${serviceYamlPath}"
+                    sh "cat ${serviceYamlPath}" // Print the file content after modification
 
                     // Apply the Kubernetes manifests using kubectl
                     sh "kubectl apply -f ${serviceYamlPath}"
