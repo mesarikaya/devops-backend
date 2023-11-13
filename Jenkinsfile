@@ -139,11 +139,8 @@ pipeline {
                     sh "sed -i 's|<ECR_REPO_NAME>|${ECR_REPO_NAME}|g' ${deploymentYamlPath}"
                     sh "sed -i 's|<DOCKER_IMAGE_VERSION>|${DOCKER_IMAGE_VERSION}|g' ${deploymentYamlPath}"
 
-                    // Assuming Kubernetes manifests are in a directory within the project
-                    dir('kubernetes') {
-                        // Apply the Kubernetes manifests using kubectl
-                        sh "kubectl apply -f ${deploymentYamlPath}"
-                    }
+                    // Apply the Kubernetes manifests using kubectl
+                    sh "kubectl apply -f ${deploymentYamlPath}"
                 }
             }
         }
