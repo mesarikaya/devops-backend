@@ -126,7 +126,7 @@ pipeline {
         stage("Create Deployment on Kubernetes") {
             steps {
                 script {
-                    // Specify the directory containing the Kubernetes manifests
+                    // Specify the location containing the Kubernetes deployment manifests
                     def deploymentYamlPath = 'kubernetes/deployment.yml'
 
                     // Dynamic replacements in the Kubernetes manifest
@@ -142,6 +142,20 @@ pipeline {
                     // Apply the Kubernetes manifests using kubectl
                     sh "kubectl apply -f ${deploymentYamlPath}"
                 }
+            }
+        }
+    }
+    stage("Create Service on Kubernetes") {
+        steps {
+            script {
+                // Specify the location containing the Kubernetes service manifests
+                def serviceYamlPath = 'kubernetes/service.yml'
+
+                // Replace placeholders in the Deployment YAML
+                sh "sed -i 's|<NAMESPACE_NAME>|${NAMESPACE_NAME}|g' ${serviceYamlPath}"
+
+                // Apply the Kubernetes manifests using kubectl
+                sh "kubectl apply -f ${serviceYamlPath}"
             }
         }
     }
