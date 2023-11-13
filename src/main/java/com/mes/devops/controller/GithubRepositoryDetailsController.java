@@ -21,7 +21,7 @@ public class GithubRepositoryDetailsController {
 
     @GetMapping("")
     public String getRepositories() throws IOException {
-        log.info("Request for getRepositories Endpoint");
+        log.info("Log inside POD: Request for getRepositories Endpoint");
         return "Simple Test github endpoint - Get github repositories";
     }
 }
