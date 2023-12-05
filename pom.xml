@@ -76,14 +76,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.kohsuke/github-api -->
-		<dependency>
-			<groupId>org.kohsuke</groupId>
-			<artifactId>github-api</artifactId>
-			<version>${github-api.version}</version>
-		</dependency>
-
-	<!-- Comment until needed
+		<!-- START - Database, its mgmt and migration related packages -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -105,7 +98,9 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
-		</dependency>-->
+		</dependency>
+	<!-- END - Database, its mgmt and migration related packages -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
